@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>فارسی‌ساز وزیرمتن</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+    
+    body {
+      width: 290px;
+      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #f8fafc;
+      color: #1e293b;
+      user-select: none;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+    .logo-container {
+      width: 28px;
+      height: 28px;
+      background-color: #2563eb;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #ffffff;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+      margin-bottom: 14px;
+      border: 1px solid #f1f5f9;
+    }
+    .toggle-label {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: .25s ease-in-out;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .25s ease-in-out;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    input:checked + .slider {
+      background-color: #2563eb;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    .section {
+      background-color: #ffffff;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-top: 0;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed #f1f5f9;
+      padding-bottom: 6px;
+    }
+    .control-group {
+      margin-bottom: 12px;
+    }
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .range-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .range-value {
+      font-weight: 700;
+      color: #2563eb;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin: 4px 0;
+      cursor: pointer;
+    }
+    .footer {
+      font-size: 10px;
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 16px;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo-container">و</div>
+    <h1 class="title">بهینه‌ساز فارسی وزیرمتن</h1>
+  </div>
+
+  <div class="toggle-container">
+    <span class="toggle-label">وضعیت فعال‌سازی</span>
+    <label class="switch">
+      <input type="checkbox" id="enabled-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">تنظیمات فونت و تراز</h2>
+    
+    <div class="control-group">
+      <div class="range-header">
+        <span>بزرگ‌نمایی فونت:</span>
+        <span id="multiplier-val" class="range-value">100%</span>
+      </div>
+      <input type="range" id="size-multiplier" min="100" max="150" step="5">
+    </div>
+    
+    <div class="control-group" style="margin-top: 14px;">
+      <label>
+        <input type="checkbox" id="align-blocks-toggle">
+        <span>راست‌چین‌سازی هوشمند بندها</span>
+      </label>
+    </div>
+
+    <div class="control-group">
+      <label>
+        <input type="checkbox" id="format-code-toggle">
+        <span>اعمال روی کدهای برنامه‌نویسی</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="footer">
+    سازگار با تمام وب‌سایت‌ها و هوش مصنوعی‌ها
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

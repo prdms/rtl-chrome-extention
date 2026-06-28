@@ -1,0 +1,22 @@
+/* Vazirmatn Persian Enhancer - Injected Styles */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+/* Dynamic styling classes applied by the extension content script */
+.vazir-enhanced-text-block {
+  font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  direction: rtl !important;
+  text-align: right !important;
+  line-height: 1.7 !important;
+}
+
+.vazir-enhanced-text-inline {
+  font-family: 'Vazirmatn', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  direction: rtl !important;
+  line-height: 1.7 !important;
+}
+
+/* Fixes for list item bullets in RTL */
+ol.vazir-enhanced-text-block, ul.vazir-enhanced-text-block {
+  padding-right: 24px !important;
+  padding-left: 0 !important;
+}
