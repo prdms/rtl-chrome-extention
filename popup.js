@@ -1,8 +1,6 @@
 const enabledToggle = document.getElementById('enabled-toggle');
 const sizeMultiplier = document.getElementById('size-multiplier');
 const multiplierVal = document.getElementById('multiplier-val');
-const alignBlocksToggle = document.getElementById('align-blocks-toggle');
-const formatCodeToggle = document.getElementById('format-code-toggle');
 
 // Load stored settings with defaults fallback
 chrome.storage.local.get({
@@ -14,16 +12,14 @@ chrome.storage.local.get({
   enabledToggle.checked = settings.enabled;
   sizeMultiplier.value = settings.fontSizeMultiplier;
   multiplierVal.textContent = `${settings.fontSizeMultiplier}%`;
-  alignBlocksToggle.checked = settings.alignBlocks;
-  formatCodeToggle.checked = settings.formatCodeBlocks;
 });
 
 function saveAndNotify() {
   const config = {
     enabled: enabledToggle.checked,
     fontSizeMultiplier: parseInt(sizeMultiplier.value),
-    alignBlocks: alignBlocksToggle.checked,
-    formatCodeBlocks: formatCodeToggle.checked
+    alignBlocks: true,
+    formatCodeBlocks: false
   };
 
   chrome.storage.local.set(config, () => {
@@ -45,8 +41,6 @@ function saveAndNotify() {
 }
 
 enabledToggle.addEventListener('change', saveAndNotify);
-alignBlocksToggle.addEventListener('change', saveAndNotify);
-formatCodeToggle.addEventListener('change', saveAndNotify);
 
 sizeMultiplier.addEventListener('input', (e) => {
   multiplierVal.textContent = `${e.target.value}%`;
