@@ -2,39 +2,50 @@ const enabledToggle = document.getElementById('enabled-toggle');
 const sizeMultiplier = document.getElementById('size-multiplier');
 const multiplierVal = document.getElementById('multiplier-val');
 
-// Load stored settings with defaults fallback
-chrome.storage.local.get({
-  enabled: true,
-  fontSizeMultiplier: 110,
-  alignBlocks: true,
-  formatCodeBlocks: false
-}, (settings) => {
-  enabledToggle.checked = settings.enabled;
-  sizeMultiplier.value = settings.fontSizeMultiplier;
-  multiplierVal.textContent = `${settings.fontSizeMultiplier}%`;
+let activeTabId = null;
+
+// Find active tab and load its specific settings
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  if (tabs && tabs[0]) {
+    activeTabId = tabs[0].id;
+    const storageKey = `tab_${activeTabId}`;
+    
+    chrome.storage.local.get({
+      [storageKey]: {
+        enabled: false,
+        fontSizeMultiplier: 110,
+        alignBlocks: true,
+        formatCodeBlocks: false
+      }
+    }, (result) => {
+      const settings = result[storageKey];
+      enabledToggle.checked = settings.enabled;
+      sizeMultiplier.value = settings.fontSizeMultiplier;
+      multiplierVal.textContent = `${settings.fontSizeMultiplier}%`;
+    });
+  }
 });
 
 function saveAndNotify() {
-  const config = {
+  if (!activeTabId) return;
+
+  const storageKey = `tab_${activeTabId}`;
+  const tabConfig = {
     enabled: enabledToggle.checked,
     fontSizeMultiplier: parseInt(sizeMultiplier.value),
     alignBlocks: true,
     formatCodeBlocks: false
   };
 
-  chrome.storage.local.set(config, () => {
+  chrome.storage.local.set({ [storageKey]: tabConfig }, () => {
     // Notify the active tab
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs && tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          type: 'UPDATE_CONFIG',
-          config: config
-        }, () => {
-          if (chrome.runtime.lastError) {
-            // Ignored - content script may not be loaded on internal/new tab pages
-            return;
-          }
-        });
+    chrome.tabs.sendMessage(activeTabId, {
+      type: 'UPDATE_CONFIG',
+      config: tabConfig
+    }, () => {
+      if (chrome.runtime.lastError) {
+        // Ignored - content script may not be loaded on internal/new tab pages
+        return;
       }
     });
   });

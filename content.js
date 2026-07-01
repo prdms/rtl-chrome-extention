@@ -1,6 +1,6 @@
 // Default configuration baked in from generation
 let config = {
-  enabled: true,
+  enabled: false,
   fontSizeMultiplier: 110,
   alignBlocks: true,
   formatCodeBlocks: false,
@@ -12,9 +12,11 @@ const INLINE_CLASS = 'vazir-enhanced-text-inline';
 const PERSIAN_REGEX = /[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFC]/;
 const PROCESSED_ATTR = 'data-vazir-enhanced';
 
-// Load stored settings or default to initial config
-chrome.storage.local.get(['enabled', 'fontSizeMultiplier', 'alignBlocks', 'formatCodeBlocks', 'customCss'], (result) => {
-  config = { ...config, ...result };
+// Load stored settings or default to initial config from background script
+chrome.runtime.sendMessage({ type: 'GET_TAB_CONFIG' }, (response) => {
+  if (response && response.config) {
+    config = { ...config, ...response.config };
+  }
   init();
 });
 
