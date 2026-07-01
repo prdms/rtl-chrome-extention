@@ -18,7 +18,10 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         formatCodeBlocks: false
       }
     }, (result) => {
-      const settings = result[storageKey];
+      const settings = (result && result[storageKey]) ? result[storageKey] : {
+        enabled: false,
+        fontSizeMultiplier: 110
+      };
       enabledToggle.checked = settings.enabled;
       sizeMultiplier.value = settings.fontSizeMultiplier;
       multiplierVal.textContent = `${settings.fontSizeMultiplier}%`;

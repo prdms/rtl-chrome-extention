@@ -13,11 +13,27 @@ const PERSIAN_REGEX = /[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFC]/;
 const PROCESSED_ATTR = 'data-vazir-enhanced';
 
 // Load stored settings or default to initial config from background script
+function loadConfigAndApply() {
+  chrome.runtime.sendMessage({ type: 'GET_TAB_CONFIG' }, (response) => {
+    if (response && response.config) {
+      config = { ...config, ...response.config };
+    } else {
+      config = { ...config, enabled: false };
+    }
+    applyToPage();
+  });
+}
+
 chrome.runtime.sendMessage({ type: 'GET_TAB_CONFIG' }, (response) => {
   if (response && response.config) {
     config = { ...config, ...response.config };
   }
   init();
+});
+
+// Handle bfcache (back-forward cache) restoration
+window.addEventListener('pageshow', () => {
+  loadConfigAndApply();
 });
 
 // Real-time updates from popup without reload
